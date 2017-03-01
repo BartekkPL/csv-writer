@@ -8,12 +8,6 @@
 
 namespace bf = boost::filesystem;
 
-namespace {
-
-const int kMaxLineLength = 1024;
-
-}
-
 namespace csv {
 
 class Csv_writer {
