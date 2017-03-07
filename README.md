@@ -17,14 +17,14 @@ It is library not single header file, because I plan to develop more functionali
 
 ## Features ##
 
-  * Logs from working by [**easyloging++**](https://github.com/muflihun/easyloggingpp)
+  * Logs from working provided by [**easyloging++**](https://github.com/muflihun/easyloggingpp)
   * Easy in using
   * Tested via [**Google Test**](https://github.com/google/googletest) framework
 
 ## Platforms ##
 
 This writer has been used only on Linux, but
-it can works on any other platform as well.
+it probably can works on any other platform as well.
 
 ## Usage ##
 
@@ -35,15 +35,15 @@ this library!
 ```
 git clone https://github.com/BartekkPL/csv-writer.git
 cd csv-writer/
-mkdir bin
-cd bin/
+mkdir build
+cd build/
 cmake ..
 make
 ```
 
 And after these steps you have builded library ready to use it in new projects!
 
-You found it at **csv-writer/bin/libcsvWriter.so**.
+You found it at **csv-writer/build/lib/libcsvWriter.so**.
 
 ## Projects using this library ##
 

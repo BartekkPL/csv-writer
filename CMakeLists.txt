@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 project (csv-writer CXX)
 
 # enable C and C++14 language
@@ -8,7 +8,7 @@ set (CMAKE_CXX_STANDARD 14)
 # set project version
 set (CSV_WRITER_MAJOR_VERSION 0)
 set (CSV_WRITER_MINOR_VERSION 1)
-set (CSV_WRITER_PATCH_VERSION 0)
+set (CSV_WRITER_PATCH_VERSION 1)
 set (CSV_WRITER_VERSION
     "${CSV_WRITER_MAJOR_VERSION}.\
      ${CSV_WRITER_MINOR_VERSION}.\
@@ -90,23 +90,18 @@ add_custom_target(
 # set external modules path
 set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/modules)
 
-
 #-------------------------------------------------------------------------------
 # GOOGLETEST MODULE AND ADD TESTS
 #-------------------------------------------------------------------------------
 
+add_subdirectory(${EXT_PROJECTS_DIR}/googletest)
+# set googletest module and add tests
+set(GOOGLETEST_ROOT ${EXT_PROJECTS_DIR}/googletest
+    CACHE STRING "Google Test source root")
+
+message(STATUS "GOOGLETEST_ROOT set to ${GOOGLETEST_ROOT}")
+
 set(PROJECT_TEST_NAME ${PROJECT_NAME}-test)
-
-set(TEST_CSV_WRITER_FILES "${CMAKE_SOURCE_DIR}/test/test-csv-writer")
-
-if (NOT TARGET googletest)
-    add_subdirectory(${EXT_PROJECTS_DIR}/googletest)
-    # set googletest module and add tests
-    set(GOOGLETEST_ROOT ${EXT_PROJECTS_DIR}/googletest
-        CACHE STRING "Google Test source root")
-
-    message(STATUS "GOOGLETEST_ROOT set to ${GOOGLETEST_ROOT}")
-endif()
 
 add_definitions(${MSVC_COMPILER_DEFS})
 
@@ -118,6 +113,8 @@ add_executable(
     ${PROJECT_TEST_NAME}
     test/main.cc
     )
+
+set(TEST_CSV_WRITER_FILES "${CMAKE_SOURCE_DIR}/test/test-csv-writer")
 
 # unit test executable depends on google test
 add_dependencies(${PROJECT_TEST_NAME} googletest)
