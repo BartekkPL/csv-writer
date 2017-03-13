@@ -45,7 +45,4 @@ TEST(ExampleFileTest, WriteTest) {
       read_data, "test.csv"));
   ASSERT_EQ(labels, read_labels);
   ASSERT_EQ(data, read_data);
-
-  // After test cleaning
-  bf::remove(bf::current_path() / "test.csv");
 }

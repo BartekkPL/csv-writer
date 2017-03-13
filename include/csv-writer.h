@@ -12,6 +12,18 @@ namespace csv {
 
 class Csv_writer {
  public:
+  /** Write to CSV file method
+    *
+    * Main csv-writer method which simply write vector of simple type data to
+    * new .csv file
+    * Template type should be basic type e.g. int, char, string... or class with
+    * '<<' operator overloaded
+    *
+    * @param labels     headers for csv data
+    * @param data
+    * @param file_path  path to the file
+    * @return           true if success, false otherwise
+    */
   template <typename T>
   static bool write_to_csv(const std::vector<std::string> labels,
                            const std::vector<T> data,
@@ -49,6 +61,47 @@ class Csv_writer {
     return true;
   }
 
+  /** Write to CSV file method
+    *
+    * Main csv-writer method which simply write vector of simple type data to
+    * new .csv file
+    * Template type should be basic type e.g. int, char, string... or class with
+    * '<<' operator overloaded
+    *
+    * @param labels     headers for csv data
+    * @param data
+    * @param file_path  path to the file
+    * @return           true if success, false otherwise
+    */
+  template <typename T>
+  static bool write_to_csv(const std::vector<std::string> labels,
+                           const std::vector<std::vector<T>> data,
+                           const boost::filesystem::path file_path) {
+    if (bf::exists(file_path)) {
+      LOG(ERROR) << "File with that name exists! Cannot write!";
+      return false;
+    }
+
+    // data serialization
+    std::vector<T> data_serialized;
+    for (int i = 0; i < data.size(); i++)
+      data_serialized.insert(std::end(data_serialized), std::begin(data[i]),
+                             std::end(data[i]));
+
+    return write_to_csv(labels, data_serialized, file_path);
+  }
+  /** Read from CSV file method
+    *
+    * Additional csv-writer method which simply read vector of simple type data
+    * to new .csv file
+    * Template type should be basic type e.g. int, char, string... or class with
+    * '>>' operator overloaded
+    *
+    * @param labels     headers from csv data
+    * @param data       data read from file
+    * @param file_path  path to the file
+    * @return           true if success, false otherwise
+    */
   template <typename T>
   static bool read_from_csv(std::vector<std::string>& labels,
                             std::vector<T>& data,
