@@ -41,15 +41,15 @@ class Csv_writer {
       return false;
     }
 
-    unsigned col_num = labels.size();
+    unsigned row_num = labels.size();
 
-    for (int i = 0; i < col_num - 1; i++) {
+    for (int i = 0; i < row_num - 1; i++) {
       file << labels[i] << ",";
     }
-    file << labels[col_num - 1];
+    file << labels[row_num - 1];
 
     for (int i = 0; i < data.size(); i++) {
-      if (i % col_num == 0) {
+      if (i % row_num == 0) {
         file << std::endl;
       }
       else {
@@ -63,10 +63,10 @@ class Csv_writer {
 
   /** Write to CSV file method
     *
-    * Main csv-writer method which simply write vector of simple type data to
-    * new .csv file
+    * Main csv-writer method which simply write vector of vector of simple type
+    * data to new .csv file.
     * Template type should be basic type e.g. int, char, string... or class with
-    * '<<' operator overloaded
+    * '<<' operator overloaded.
     *
     * @param labels     headers for csv data
     * @param data
@@ -82,13 +82,31 @@ class Csv_writer {
       return false;
     }
 
-    // data serialization
-    std::vector<T> data_serialized;
-    for (int i = 0; i < data.size(); i++)
-      data_serialized.insert(std::end(data_serialized), std::begin(data[i]),
-                             std::end(data[i]));
+    if (labels.size() == 0 || data.size() == 0) {
+      LOG(ERROR) << "You passed empty vector!";
+      return false;
+    }
 
-    return write_to_csv(labels, data_serialized, file_path);
+    if (labels.size() != data.size()) {
+      LOG(ERROR) << "The number of labels and data vectors should be equal!";
+      return false;
+    }
+
+    for (int i = 1; i < data.size(); i++) {
+      if (data[i].size() != data[0].size()) {
+        LOG(ERROR) << "The number of elements of each data vector should be "
+                   << "equal!";
+        return false;
+      }
+    }
+
+    // data shuffle
+    std::vector<T> data_shuffled;
+    for (int i = 0; i < data[0].size(); i++)
+      for (int j = 0; j < data.size(); j++)
+        data_shuffled.push_back(data[j][i]);
+
+    return write_to_csv(labels, data_shuffled, file_path);
   }
   /** Read from CSV file method
     *
