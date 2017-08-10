@@ -4,16 +4,22 @@ project (csv-writer CXX)
 # enable C and C++14 language
 enable_language (C CXX)
 set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wno-sign-compare")
 
 # set project version
 set (CSV_WRITER_MAJOR_VERSION 0)
 set (CSV_WRITER_MINOR_VERSION 1)
-set (CSV_WRITER_PATCH_VERSION 2)
+set (CSV_WRITER_PATCH_VERSION 4)
 set (CSV_WRITER_VERSION
     "${CSV_WRITER_MAJOR_VERSION}.\
      ${CSV_WRITER_MINOR_VERSION}.\
      ${CSV_WRITER_PATCH_VERSION}"
      )
+
+message(STATUS "Start of execution CMake for Csv Writer in version "
+        "${CSV_WRITER_MAJOR_VERSION}.${CSV_WRITER_MINOR_VERSION}."
+        "${CSV_WRITER_PATCH_VERSION}"
+       )
 
 # loaction of logger configuration file
 set (EASYLOGGING_CONFIG_FILE_PATH

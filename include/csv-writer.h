@@ -28,16 +28,14 @@ class Csv_writer {
   static bool write_to_csv(const std::vector<std::string> labels,
                            const std::vector<T> data,
                            const boost::filesystem::path file_path) {
-    if (bf::exists(file_path)) {
-      LOG(ERROR) << "File with that name exists! Cannot write!";
-      return false;
-    }
+    if (bf::exists(file_path))
+      LOG(WARNING) << "File with that name already exists! Overwriting...!";
 
     std::ofstream file;
-    file.open(file_path.string());
+    file.open(file_path.string(), std::ofstream::trunc);
 
     if (!file.is_open()) {
-      LOG(ERROR) << "Cannot create and open the file: " << file_path;
+      LOG(ERROR) << "Cannot open the file: " << file_path;
       return false;
     }
 
@@ -67,6 +65,8 @@ class Csv_writer {
     * data to new .csv file.
     * Template type should be basic type e.g. int, char, string... or class with
     * '<<' operator overloaded.
+    * E.g. vector of value of type T that is is first in vector is written as a
+    * column in csv with first label from labels vector
     *
     * @param labels     headers for csv data
     * @param data
@@ -77,11 +77,6 @@ class Csv_writer {
   static bool write_to_csv(const std::vector<std::string> labels,
                            const std::vector<std::vector<T>> data,
                            const boost::filesystem::path file_path) {
-    if (bf::exists(file_path)) {
-      LOG(ERROR) << "File with that name exists! Cannot write!";
-      return false;
-    }
-
     if (labels.size() == 0 || data.size() == 0) {
       LOG(ERROR) << "You passed empty vector!";
       return false;
