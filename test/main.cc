@@ -36,12 +36,12 @@ TEST(ExampleFileTest, WriteTest) {
   data.push_back("Smith");
   data.push_back("24");
 
-  ASSERT_TRUE(csv::Csv_writer::write_to_csv<std::string>(labels, data,
+  ASSERT_TRUE(csv::write_to_csv<std::string>(labels, data,
                                                          "test.csv"));
 
   std::vector<std::string> read_labels;
   std::vector<std::string> read_data;
-  ASSERT_TRUE(csv::Csv_writer::read_from_csv<std::string>(read_labels,
+  ASSERT_TRUE(csv::read_from_csv<std::string>(read_labels,
       read_data, "test.csv"));
   ASSERT_EQ(labels, read_labels);
   ASSERT_EQ(data, read_data);
